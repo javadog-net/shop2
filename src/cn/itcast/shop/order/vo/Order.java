@@ -26,7 +26,7 @@ import cn.itcast.shop.user.vo.User;
 public class Order {
 	private Integer oid;
 	private Double total;
-	private Date ordertime;
+	private String ordertime;
 	private Integer state;// 1:未付款   2:订单已经付款   3:已经发货   4:订单结束
 	private String name;
 	private String addr;
@@ -49,10 +49,10 @@ public class Order {
 	public void setTotal(Double total) {
 		this.total = total;
 	}
-	public Date getOrdertime() {
+	public String getOrdertime() {
 		return ordertime;
 	}
-	public void setOrdertime(Date ordertime) {
+	public void setOrdertime(String ordertime) {
 		this.ordertime = ordertime;
 	}
 	public Integer getState() {

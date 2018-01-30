@@ -1,9 +1,11 @@
 package cn.itcast.shop.order.action;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.struts2.ServletActionContext;
+import org.aspectj.weaver.ast.Var;
 
 import cn.itcast.shop.cart.vo.Cart;
 import cn.itcast.shop.cart.vo.CartItem;
@@ -14,6 +16,7 @@ import cn.itcast.shop.user.vo.User;
 import cn.itcast.shop.utils.PageBean;
 import cn.itcast.shop.utils.PaymentUtil;
 
+import com.mysql.jdbc.exceptions.MySQLDataException;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -81,7 +84,15 @@ public class OrderAction extends ActionSupport implements ModelDriven<Order> {
 		// 设置订单的状态
 		order.setState(1); // 1:未付款.2 3 4
 		// 设置订单时间
-		order.setOrdertime(new Date());
+		//"yyyy-MM-dd HH:mm:ss"
+	
+		SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date date=new Date();
+		//System.err.print(dateFormater.format(date));
+		
+		
+		order.setOrdertime(dateFormater.format(date));
+		
 		// 设置订单关联的客户:
 		User existUser = (User) ServletActionContext.getRequest().getSession()
 				.getAttribute("existUser");
@@ -101,25 +112,11 @@ public class OrderAction extends ActionSupport implements ModelDriven<Order> {
 
 			order.getOrderItems().add(orderItem);
 			
-			System.err.println(cartItem.getCount());
-			System.err.println(cartItem.getSubtotal());
-			System.err.println(cartItem.getProduct());
+		
 
 			
 		}
-		order.setAddr("sd");
-		order.setName("1");
-		order.setPhone("sdfs");
-		order.setOid(1);
-		order.setOrdertime(null);
-		System.err.println(order.getAddr());
-		System.err.println(order.getName());
-		System.err.println(order.getPhone());
-		System.err.println(order.getOid());
-		System.err.println(order.getOrdertime());
-		System.err.println(order.getState());
-		System.err.println(order.getTotal());
-		System.err.println(order.getUser());
+	
 		
 		orderService.save(order);
 		// 清空购物车:
